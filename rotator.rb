@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
+require 'rubygems'
+require 'sinatra'
 
-game_days = [
+GameDays = [
   "Sept. 11",
   "Sept. 18",
   "Sept. 25",
@@ -9,7 +11,7 @@ game_days = [
   "Oct. 16"
 ]
 
-players = [
+Players = [
   "Alex",
   "Andrew",
   "Eddie",
@@ -21,7 +23,7 @@ players = [
   "Trowah"
 ]
 
-positions = [
+Positions = [
   "Left Forward",
   "Left Defender",
   "Left Bench",
@@ -35,15 +37,20 @@ positions = [
 
 Quarters = ["1st","2nd","3rd","4th"]
 
-game_days.each_with_index do |game_day, game_idx|
-  puts "\nGAME #{game_idx+1}: #{game_day}"
-  (0..3).each do |quarter|
-    puts "#{Quarters[quarter]} quarter"
-    9.times do |idx|
-      puts "\t#{positions[idx]}: #{players[idx]}"
+get '/' do
+  output = ""
+  GameDays.each_with_index do |game_day, game_idx|
+    output += "\nGAME #{game_idx+1}: #{game_day}\n"
+    (0..3).each do |quarter|
+      output += "#{Quarters[quarter]} quarter\n"
+      9.times do |idx|
+        output += "\t#{Positions[idx]}: #{Players[idx]}\n"
+      end
+      to_the_front = Players.pop
+      Players.unshift(to_the_front)
     end
-    to_the_front = players.pop
-    players.unshift(to_the_front)
+    output += "-" * 30
+    output += "\n"
   end
-  puts "-" * 30
+  output
 end
