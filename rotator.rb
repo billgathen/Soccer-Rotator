@@ -40,17 +40,17 @@ Quarters = ["1st","2nd","3rd","4th"]
 get '/' do
   output = ""
   GameDays.each_with_index do |game_day, game_idx|
-    output += "\nGAME #{game_idx+1}: #{game_day}\n"
+    output += "<h1>GAME #{game_idx+1}: #{game_day}<h1>\n"
     (0..3).each do |quarter|
-      output += "#{Quarters[quarter]} quarter\n"
+      output += "<h3>#{Quarters[quarter]} quarter</h3>\n"
+      output += "<ul>\n"
       9.times do |idx|
-        output += "\t#{Positions[idx]}: #{Players[idx]}\n"
+        output += "<li>#{Positions[idx]}: #{Players[idx]}</li>\n"
       end
+      output += "</ul>\n"
       to_the_front = Players.pop
       Players.unshift(to_the_front)
     end
-    output += "-" * 30
-    output += "\n"
   end
   output
 end
