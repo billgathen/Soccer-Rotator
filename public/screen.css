@@ -1,3 +1,7 @@
+h1 {
+  margin-bottom: 0;
+}
+
 h3 {
   display: inline;
 }
@@ -12,4 +16,12 @@ h3 {
 
 #controls {
   clear: both;
+}
+
+.game {
+  clear: both;
+}
+
+.quarter {
+  float: left;
 }

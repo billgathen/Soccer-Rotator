@@ -1,0 +1,15 @@
+!!! 5
+%html
+  %head
+    %title Soccer Rotator
+    %link{:rel => "stylesheet", :href => "screen.css", :type => "text/css", :media => "screen", :charset => "utf-8"}
+  %body
+    - games.each do |game|
+      .game
+        %h1= "Game #{game[:number]}: #{game[:name]}"
+        - game[:quarters].each_with_index do |quarter,idx|
+          .quarter
+            %h2= "#{quarter_names[idx]} Quarter"
+            %ul
+              - quarter.each_with_index do |player,idx|
+                %li= "#{positions[idx]}: #{player}"
