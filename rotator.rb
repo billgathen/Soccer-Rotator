@@ -2,18 +2,6 @@ require 'rubygems'
 require 'sinatra'
 require 'haml'
 
-Positions = [
-  "Left Forward",
-  "Left Defender",
-  "Left Bench",
-  "Midfielder",
-  "Keeper",
-  "Middle Bench",
-  "Right Forward",
-  "Right Defender",
-  "Right Bench"
-]
-
 Quarters = ["1st","2nd","3rd","4th"]
 
 get '/' do
@@ -21,6 +9,17 @@ get '/' do
 end
 
 post '/schedule' do
+  positions = [
+    "Left Forward",
+    "Left Defender",
+    "Left Bench",
+    "Midfielder",
+    "Keeper",
+    "Middle Bench",
+    "Right Forward",
+    "Right Defender",
+    "Right Bench"
+  ]
   game_days = []
   players = []
   params.keys.sort.each do |k|
@@ -30,14 +29,19 @@ post '/schedule' do
       players << params[k] unless params[k].size == 0
     end
   end
+
+  positions.delete("Right Bench") if players.size < 9
+  positions.delete("Middle Bench") if players.size < 8
+  positions.delete("Left Bench") if players.size < 7
+
   haml :schedule, :locals => {
-    :games => schedule_games(game_days,players),
+    :games => schedule_games(positions, game_days,players),
     :quarter_names => Quarters,
-    :positions => Positions
+    :positions => positions
   }
 end
 
-def schedule_games(game_days, players)
+def schedule_games(positions, game_days, players)
   games = []
   if players.size < 6
     games = "Need at least 6 players to create a schedule"
@@ -49,7 +53,7 @@ def schedule_games(game_days, players)
       game[:quarters] = []
       (0..3).each do |quarter|
         game[:quarters][quarter] = []
-        Positions.each_with_index do |position,idx|
+        positions.each_with_index do |position,idx|
           game[:quarters][quarter] << players[idx]
         end
         to_the_front = players.pop
