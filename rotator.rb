@@ -1,6 +1,6 @@
-#!/usr/bin/env ruby
 require 'rubygems'
 require 'sinatra'
+require 'haml'
 
 GameDays = [
   "Sept. 11",
@@ -38,6 +38,10 @@ Positions = [
 Quarters = ["1st","2nd","3rd","4th"]
 
 get '/' do
+  haml :form
+end
+
+post '/' do
   output = ""
   GameDays.each_with_index do |game_day, game_idx|
     output += "<h1>GAME #{game_idx+1}: #{game_day}<h1>\n"
