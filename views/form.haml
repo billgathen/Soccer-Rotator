@@ -9,18 +9,18 @@
       %p Currently, the Soccer Rotator only handles a six-position (2 forwards, 1 midfielder, 2 defenders, 1 keeper), nine-player team and a six-game half-season under an AYSO-style constant-rotation system, because that's what my son plays. :-)
       %p Fill in the games fields below (date, time, location, field and opposing team is suggested), then the player fields and press "create".
     #form
-      %form{:action => 'schedule', :method => 'get'}
+      %form{:action => 'schedule', :method => 'post'}
         #games
           %h2 Games
           - 6.times do |idx|
             %h3= "Game #{idx+1}"
-            %input{:type => "text", :name => "game", :size => 80}
+            %input{:type => "text", :name => "game_#{idx+1}", :size => 80}
             %br
         #players
           %h2 Players
           - 9.times do |idx|
             %h3= "Player #{idx+1}"
-            %input{:type => "text", :name => "game", :size => 40}
+            %input{:type => "text", :name => "player_#{idx+1}", :size => 40}
             %br
         #controls
           %input{:type => "submit", :value => "Create!"}

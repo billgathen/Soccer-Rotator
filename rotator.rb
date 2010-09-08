@@ -41,17 +41,26 @@ get '/' do
   haml :form
 end
 
-get '/schedule' do
+post '/schedule' do
+  game_days = []
+  players = []
+  params.keys.sort.each do |k|
+    if k =~ /game/
+      game_days << params[k]
+    elsif k =~ /player/
+      players << params[k]
+    end
+  end
   haml :schedule, :locals => {
-    :games => schedule_games,
+    :games => schedule_games(game_days,players),
     :quarter_names => Quarters,
     :positions => Positions
   }
 end
 
-def schedule_games
+def schedule_games(game_days, players)
   games = []
-  GameDays.each_with_index do |game_day, game_idx|
+  game_days.each_with_index do |game_day, game_idx|
     game = {}
     game[:number] = game_idx + 1
     game[:name] = game_day
@@ -59,10 +68,10 @@ def schedule_games
     (0..3).each do |quarter|
       game[:quarters][quarter] = []
       Positions.each_with_index do |position,idx|
-        game[:quarters][quarter].push Players[idx]
+        game[:quarters][quarter] << players[idx]
       end
-      to_the_front = Players.pop
-      Players.unshift(to_the_front)
+      to_the_front = players.pop
+      players.unshift(to_the_front)
     end
     games << game
   end
