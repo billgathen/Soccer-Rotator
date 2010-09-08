@@ -25,3 +25,7 @@ h3 {
 .quarter {
   float: left;
 }
+
+#error {
+  color: red;
+}

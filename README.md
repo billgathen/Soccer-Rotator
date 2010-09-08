@@ -7,6 +7,7 @@ The algorithm rotates each player through all the positions and the bench in a w
 In order to guarantee equal playing time, every 3rd game a player will have to sit out 2 quarters. The remaining games every player will play the AYSO-recommended 3 quarters, with no player ever playing all 4 quarters. This can be manually-adjusted on game day when some players don't show up.
 
 # TO-DO #
-* allow user entry of dates and player names
+* handle 6, 7 and 8-player rosters
+* scramble order after every 2 games to keep from repeating lineups
 * style list results with CSS
 * output printable rotation charts
