@@ -56,6 +56,13 @@ def schedule_games(positions, game_days, players)
         positions.each_with_index do |position,idx|
           player_positions[position] = players[idx]
         end
+        # handle "double sit" issue with 8-player teams
+        if quarter == 3 && players.size == 8
+          ld = player_positions['Left Defender']
+          mb = player_positions['Middle Bench']
+          player_positions['Left Defender'] = mb
+          player_positions['Middle Bench'] = ld
+        end
         game[:quarters][quarter] = player_positions
         to_the_front = players.pop
         players.unshift(to_the_front)
