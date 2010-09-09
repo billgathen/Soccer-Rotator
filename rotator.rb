@@ -52,10 +52,11 @@ def schedule_games(positions, game_days, players)
       game[:name] = game_day
       game[:quarters] = []
       (0..3).each do |quarter|
-        game[:quarters][quarter] = []
+        player_positions = {}
         positions.each_with_index do |position,idx|
-          game[:quarters][quarter] << players[idx]
+          player_positions[position] = players[idx]
         end
+        game[:quarters][quarter] = player_positions
         to_the_front = players.pop
         players.unshift(to_the_front)
       end

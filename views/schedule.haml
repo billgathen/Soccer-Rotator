@@ -2,19 +2,41 @@
 %html
   %head
     %title Soccer Rotator
-    %link{:rel => "stylesheet", :href => "screen.css", :type => "text/css", :charset => "utf-8"}
+    %link{:rel => "stylesheet", :href => "style.css", :type => "text/css", :charset => "utf-8"}
   %body
     - if games.instance_of?(String)
       #error
         %h2= games
       %a{:href => '#', :onclick => "history.go(-1); return false;"} Back
     - else
-      - games.each do |game|
+      - games.each_with_index do |game,idx|
         .game
           %h1= "Game #{game[:number]}: #{game[:name]}"
           - game[:quarters].each_with_index do |quarter,idx|
             .quarter
               %h2= "#{quarter_names[idx]} Quarter"
-              %ul
-                - quarter.each_with_index do |player,idx|
-                  %li= "#{positions[idx]}: #{player}"
+              .narrow_box
+                %h3 Forward
+                = quarter['Left Forward']
+              .narrow_box
+                %h3 Forward
+                = quarter['Right Forward']
+              .wide_box
+                %h3 Midfielder
+                = quarter['Midfielder']
+              .narrow_box
+                %h3 Defender
+                = quarter['Left Defender']
+              .narrow_box
+                %h3 Defender
+                = quarter['Right Defender']
+              .wide_box
+                %h3 Goal
+                = quarter['Keeper']
+              - on_bench = [quarter['Left Bench'], quarter['Middle Bench'], quarter['Right Bench']].compact
+              - if on_bench.size > 0
+                .wide_box
+                  %h3 Bench
+                  = on_bench.join(', ')
+        - unless games.size == idx+1
+          .page_break
