@@ -68,7 +68,22 @@ def schedule_games(positions, game_days, players)
         players.unshift(to_the_front)
       end
       games << game
+      if game_idx == 1 || game_idx == 3
+        players = shift_players(players)
+      end
     end
   end
   games
+end
+
+def shift_players players
+  puts "BEFORE: #{players.join(',')}"
+  odd = []
+  even = []
+  players.each_with_index do |p,i|
+    i % 2 == 0 ? even << p : odd << p
+  end
+  result = odd + even
+  puts "after: #{result.join(',')}"
+  result
 end
